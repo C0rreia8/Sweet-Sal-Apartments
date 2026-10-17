@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visita virtual — Tropical Sweet · Sweet Sal Apartments</title>
+<meta name="description" content="Faz a visita ao Tropical Sweet em Santa Maria, Ilha do Sal: do condomínio Tropical até ao quarto, só a fazer scroll.">
+<meta property="og:title" content="Visita virtual — Tropical Sweet">
+<meta property="og:description" content="Do condomínio Tropical até ao quarto, só a fazer scroll.">
+<meta property="og:image" content="frames/f0040.webp">
+<meta name="theme-color" content="#0E2433">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="preload" as="fetch" href="frames/manifest.json" crossorigin>
+<style>
+:root{--navy:#0E2433;--navy2:#0A1C28;--sun:#E9A23B;--teal:#127A86;--wall:#F4EFE6;--cream:#F7F5F0;--frame:#1C4A63}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--navy);color:var(--cream);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.disp{font-family:'Syne',sans-serif;font-weight:700;letter-spacing:-0.035em;line-height:.95;margin:0}
+.ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.01em}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;transition:transform .3s}
+.btn:hover{transform:translateY(-2px)}
+
+/* topo */
+header{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,4vw,48px);pointer-events:none}
+header a{pointer-events:auto}
+header{transition:background .4s}
+header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.logo{display:flex;flex-direction:column;align-items:center;text-decoration:none;line-height:1}
+.logo b{font-family:'Syne',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em}
+.logo b i{font-family:'Instrument Serif',serif;font-weight:400;font-size:1.15em;color:var(--sun)}
+.logo small{font-size:10px;font-weight:700;letter-spacing:.32em;opacity:.7;margin-top:4px}
+.back{font-size:14px;font-weight:600;text-decoration:none;opacity:.85;display:none}
+@media(min-width:900px){.back{display:inline}}
+.hdr-r{display:flex;align-items:center;gap:22px}
+
+/* visita */
+.tour{position:relative;height:1000vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 50% 40%,#16384d 0%,var(--navy) 55%,var(--navy2) 100%)}
+.win{position:relative;height:min(86svh,1100px);aspect-ratio:9/16;border-radius:999px 999px 18px 18px;overflow:hidden;
+  box-shadow:0 0 0 14px var(--frame),0 0 0 16px rgba(247,245,240,.25),0 60px 120px -30px rgba(0,0,0,.7);background:#0b1b26}
+.win canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.win::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,28,40,0) 60%,rgba(10,28,40,.55) 100%);pointer-events:none}
+.tag{position:absolute;top:18%;left:50%;transform:translateX(-50%);z-index:3;font-size:12px;font-weight:600;background:rgba(14,36,51,.7);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:7px 14px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .5s}
+.tag.on{opacity:1}
+
+.side{position:absolute;top:50%;transform:translateY(-50%);width:min(27vw,380px)}
+.side.r{width:min(20vw,250px)}
+.side.l{left:clamp(24px,5vw,90px)}
+.side.r{right:clamp(24px,5vw,90px)}
+.cap{position:relative;min-height:260px}
+.cap article{position:absolute;inset:0 auto auto 0;opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s;pointer-events:none}
+.cap article.on{opacity:1;transform:none;pointer-events:auto}
+.cap .eyebrow{color:var(--sun);margin-bottom:16px}
+.cap h2{font-size:clamp(40px,4.6vw,76px)}
+.cap h2 .ser{color:var(--sun);font-size:1.08em}
+.cap p{font-size:18px;line-height:1.6;opacity:.82;margin:16px 0 0;max-width:380px}
+.cap .btn{margin-top:26px}
+
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.steps li{display:flex;align-items:center;gap:14px;padding:9px 0;font-size:15px;font-weight:600;opacity:.4;transition:opacity .4s}
+.steps li.on{opacity:1}
+.steps li.done{opacity:.7}
+.steps .dot{width:10px;height:10px;border-radius:50%;border:2px solid currentColor;flex:none;transition:background .4s,border-color .4s}
+.steps li.on .dot{background:var(--sun);border-color:var(--sun)}
+.steps li.done .dot{background:currentColor}
+.bar{height:3px;border-radius:3px;background:rgba(247,245,240,.15);margin-top:22px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--sun)}
+
+.hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;transition:opacity .5s}
+.hint span{display:block;width:2px;height:30px;background:rgba(247,245,240,.25);position:relative;overflow:hidden}
+.hint span::after{content:"";position:absolute;left:0;top:0;width:2px;height:14px;background:var(--cream);animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(-14px)}100%{transform:translateY(30px)}}
+.load{position:absolute;bottom:28px;right:clamp(16px,4vw,48px);font-size:12px;opacity:.6;z-index:4}
+
+/* fim */
+.end{background:var(--wall);color:var(--navy);padding:clamp(80px,12vw,150px) clamp(16px,5vw,64px);text-align:center}
+.end .eyebrow{color:var(--teal);margin-bottom:20px}
+.end h2{font-size:clamp(44px,7vw,110px)}
+.end h2 .ser{color:#A9600F}
+.end p{font-size:18px;line-height:1.6;max-width:560px;margin:24px auto 0;opacity:.8}
+.end .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:36px}
+.note{font-size:13px;opacity:.6;margin-top:40px}
+
+/* telemóvel */
+@media (max-width:899px){
+  .tour{height:900vh}
+  .win{height:100%;width:100%;aspect-ratio:auto;border-radius:0;box-shadow:none}
+  .win::after{background:linear-gradient(180deg,rgba(10,28,40,.6) 0%,rgba(10,28,40,0) 16%,rgba(10,28,40,0) 38%,rgba(10,28,40,.7) 62%,rgba(10,28,40,.96) 100%)}
+  .cap{text-shadow:0 2px 18px rgba(10,28,40,.6)}
+  .side.l{left:0;right:0;top:auto;bottom:0;transform:none;width:auto;padding:0 20px 92px;z-index:3}
+  .side.r{width:auto;left:20px;right:20px;top:auto;bottom:62px;transform:none;width:auto;z-index:3}
+  .steps{display:none}
+  .bar{margin:0}
+  .cap{min-height:220px}
+  .cap article{inset:auto 0 0 0}
+  .cap h2{font-size:44px}
+  .cap p{font-size:16px}
+  .tag{top:86px}
+  .hint{bottom:auto;top:46%}
+  .load{bottom:auto;top:76px;right:20px}
+}
+@media (prefers-reduced-motion:reduce){.cap article{transition:none}.hint span::after{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="../" aria-label="Sweet Sal Apartments — página inicial"><b>Sweet <i>Sal</i></b><small>APARTMENTS</small></a>
+  <div class="hdr-r">
+    <a class="back" href="../#apartamentos">← Voltar ao site</a>
+    <a class="btn" href="#reservar" style="background:var(--sun);color:var(--navy);min-height:44px;padding:0 20px;font-size:14px">Reservar</a>
+  </div>
+</header>
+
+<main>
+<section class="tour" id="tour" aria-label="Visita virtual ao Tropical Sweet">
+  <div class="stage">
+    <div class="win">
+      <canvas id="cv" role="img" aria-label="Visita ao Tropical Sweet: do condomínio até aos quartos"></canvas>
+      <span class="tag" id="tag">Decoração ilustrativa</span>
+    </div>
+
+    <div class="side l">
+      <div class="cap" id="caps">
+        <article data-s="0"><p class="eyebrow">Santa Maria · Ilha do Sal</p><h2 class="disp">Tropical <span class="ser">Sweet</span></h2><p>Faz a visita ao apartamento sem sair do sofá. Vai descendo.</p></article>
+        <article data-s="1"><p class="eyebrow">01 · O condomínio</p><h2 class="disp">Tropical</h2><p>Piscina, jardins e palmeiras, a 3 minutos a pé da praia.</p></article>
+        <article data-s="2"><p class="eyebrow">02 · Chegada</p><h2 class="disp">Bem-<span class="ser">vindo</span></h2><p>A entrada do condomínio, entre arcos e hibiscos.</p></article>
+        <article data-s="3"><p class="eyebrow">03 · Jardins</p><h2 class="disp">Verde <span class="ser">o ano inteiro</span></h2><p>Relvados, palmeiras e pérgolas à volta dos prédios.</p></article>
+        <article data-s="4"><p class="eyebrow">04 · A piscina</p><h2 class="disp">Mergulhos</h2><p>Espreguiçadeiras à sombra das pérgolas, a poucos passos de casa.</p></article>
+        <article data-s="5"><p class="eyebrow">05 · O prédio</p><h2 class="disp">Por <span class="ser">aqui</span></h2><p>Um caminho de flores até à porta do prédio.</p></article>
+        <article data-s="6"><p class="eyebrow">06 · Entrada</p><h2 class="disp">A tua <span class="ser">casa</span></h2><p>82 m², dois quartos e muita luz.</p></article>
+        <article data-s="7"><p class="eyebrow">07 · Sala &amp; kitchenette</p><h2 class="disp">Cozinha</h2><p>Placa a gás, frigorífico alto e mesa para 6.</p></article>
+        <article data-s="8"><p class="eyebrow">08 · O corredor</p><h2 class="disp">Três <span class="ser">portas</span></h2><p>À direita o quarto de casal, em frente o twin, à esquerda a casa de banho.</p></article>
+        <article data-s="9"><p class="eyebrow">09 · Quarto de casal</p><h2 class="disp">Des<span class="ser">canso</span></h2><p>Cama de casal, roupeiro grande e luz quente ao fim do dia.</p></article>
+        <article data-s="10"><p class="eyebrow">10 · Quarto twin</p><h2 class="disp">Para <span class="ser">dois</span></h2><p>Duas camas individuais, ideal para miúdos ou amigos.</p></article>
+        <article data-s="11"><p class="eyebrow">11 · Casa de banho</p><h2 class="disp">Fres<span class="ser">cura</span></h2><p>Base de duche, máquina de lavar roupa e água quente.</p></article>
+        <article data-s="12"><p class="eyebrow">Até já</p><h2 class="disp">Gostaste <span class="ser">da casa?</span></h2><p>Fala connosco e diz-nos as datas.</p><a class="btn" href="#reservar" style="background:var(--sun);color:var(--navy)">Pedir disponibilidade</a></article>
+      </div>
+    </div>
+
+    <div class="side r">
+      <ol class="steps" id="steps">
+        <li data-from="1"><span class="dot"></span>Condomínio</li>
+        <li data-from="4"><span class="dot"></span>Piscina</li>
+        <li data-from="6"><span class="dot"></span>Entrada</li>
+        <li data-from="7"><span class="dot"></span>Sala &amp; cozinha</li>
+        <li data-from="8"><span class="dot"></span>Corredor</li>
+        <li data-from="9"><span class="dot"></span>Quarto de casal</li>
+        <li data-from="10"><span class="dot"></span>Quarto twin</li>
+        <li data-from="11"><span class="dot"></span>Casa de banho</li>
+      </ol>
+      <div class="bar"><i id="bar"></i></div>
+    </div>
+
+    <div class="hint" id="hint">Desliza<span></span></div>
+    <div class="load" id="load" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="end" id="reservar">
+  <p class="eyebrow">Reservar o Tropical Sweet</p>
+  <h2 class="disp">O teu Sal <span class="ser">começa aqui.</span></h2>
+  <p>2 quartos · 82 m² · 3 minutos a pé da praia de Santa Maria. Diz-nos as datas e quantos são, e respondemos com a disponibilidade e o preço final.</p>
+  <div class="row">
+    <a class="btn" href="https://wa.me/351932146183?text=Ol%C3%A1!%20Vi%20a%20visita%20ao%20Tropical%20Sweet%20e%20gostava%20de%20saber%20a%20disponibilidade." style="background:var(--navy);color:var(--cream)">WhatsApp +351 932 146 183</a>
+    <a class="btn" href="mailto:sweetsalapartments@gmail.com?subject=Tropical%20Sweet%20%E2%80%94%20disponibilidade" style="box-shadow:inset 0 0 0 1.5px var(--navy);color:var(--navy)">sweetsalapartments@gmail.com</a>
+  </div>
+  <p><a href="../">← Ver o site completo</a></p>
+  <p class="note">Os quartos e a casa de banho aparecem com decoração ilustrativa.</p>
+</section>
+</main>
+
+<script>
+(function () {
+  var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  var tour = document.getElementById('tour');
+  var caps = [].slice.call(document.querySelectorAll('#caps article'));
+  var steps = [].slice.call(document.querySelectorAll('#steps li'));
+  var bar = document.getElementById('bar'), tag = document.getElementById('tag');
+  var hint = document.getElementById('hint'), load = document.getElementById('load'), hdr = document.querySelector('header');
+  var STAGED = { 9: 1, 10: 1, 11: 1 };
+  var M = null, frames = [], loaded = 0, target = 0, cur = 0, lastDrawn = -1, lastScene = -1;
+
+  function size() {
+    var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); lastDrawn = -1;
+  }
+  function progress() {
+    var r = tour.getBoundingClientRect(), span = r.height - window.innerHeight;
+    return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+  }
+  function nearest(i) {
+    for (var k = 0; k < M.count; k++) {
+      if (frames[i - k] && frames[i - k].ok) return i - k;
+      if (frames[i + k] && frames[i + k].ok) return i + k;
+    }
+    return -1;
+  }
+  function draw(i) {
+    var j = nearest(i); if (j < 0 || j === lastDrawn) return;
+    var img = frames[j], cw = cv.width, ch = cv.height;
+    var s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    var w = img.naturalWidth * s, h = img.naturalHeight * s;
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    lastDrawn = j;
+  }
+  function sceneAt(p) {
+    var best = 0;
+    for (var i = 0; i < M.scenes.length; i++) {
+      var sc = M.scenes[i], mid = sc.start + (sc.end - sc.start) * 0.15;
+      if (p >= mid) best = i;
+    }
+    return best;
+  }
+  function ui(p) {
+    var s = sceneAt(p);
+    if (s !== lastScene) {
+      caps.forEach(function (a) { a.classList.toggle('on', +a.dataset.s === s); });
+      steps.forEach(function (li, k) {
+        var from = +li.dataset.from, next = steps[k + 1] ? +steps[k + 1].dataset.from : 99;
+        li.classList.toggle('on', s >= from && s < next);
+        li.classList.toggle('done', s >= next);
+      });
+      tag.classList.toggle('on', !!STAGED[s]);
+      lastScene = s;
+    }
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    hint.style.opacity = p < 0.02 ? 1 : 0;
+  }
+  function tick() {
+    target = progress();
+    hdr.classList.toggle('solid', tour.getBoundingClientRect().bottom < 80);
+    cur += (target - cur) * 0.14;
+    if (Math.abs(target - cur) < 0.0005) cur = target;
+    if (M) { draw(Math.round(cur * (M.count - 1))); ui(cur); }
+    requestAnimationFrame(tick);
+  }
+  function loadFrames() {
+    var order = [], seen = {};
+    [16, 8, 4, 2, 1].forEach(function (st) {
+      for (var i = 0; i < M.count; i += st) if (!seen[i]) { seen[i] = 1; order.push(i); }
+    });
+    var active = 0, q = 0, MAX = 6;
+    function next() {
+      while (active < MAX && q < order.length) {
+        (function (i) {
+          var img = new Image(); active++;
+          img.decoding = 'async';
+          img.onload = function () { img.ok = true; loaded++; active--; if (i === 0 || lastDrawn < 0) lastDrawn = -1; status(); next(); };
+          img.onerror = function () { active--; next(); };
+          img.src = 'frames/f' + String(i).padStart(4, '0') + '.webp';
+          frames[i] = img;
+        })(order[q++]);
+      }
+    }
+    next();
+  }
+  function status() {
+    var pct = Math.round(loaded / M.count * 100);
+    load.textContent = pct < 100 ? 'A carregar a visita… ' + pct + '%' : '';
+  }
+  window.addEventListener('resize', size);
+  size();
+  fetch('frames/manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+    M = m; frames = new Array(M.count); status(); loadFrames();
+  });
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
