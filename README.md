@@ -22,8 +22,9 @@ Para testar localmente: `python3 -m http.server` e abrir http://localhost:8000
 
 ## Visita virtual (`/visita`)
 
-Página em que o scroll controla a câmara pelo Tropical Sweet. Os frames estão em `visita/frames/`
-(com `manifest.json`). Para trocar por um vídeo novo (ex.: clipes de IA juntos):
+Página em que o scroll controla a câmara pelo Tropical Sweet, em ecrã inteiro. Há duas séries de frames,
+cada uma com `manifest.json`: `visita/frames/` (vertical, telemóvel) e `visita/frames-wide/` (horizontal,
+computador); a página escolhe pela forma do ecrã. Para trocar por um vídeo novo (ex.: clipes de IA juntos):
 
     python3 tools/frames_from_video.py visita.mp4 0,4,7.6,10.8,14,17.6,20.6,23.4,27,31.8,36.2,40.2,43.6
 

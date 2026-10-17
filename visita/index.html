@@ -7,12 +7,11 @@
 <meta name="description" content="Faz a visita ao Tropical Sweet em Santa Maria, Ilha do Sal: do condomínio Tropical até ao quarto, só a fazer scroll.">
 <meta property="og:title" content="Visita virtual — Tropical Sweet">
 <meta property="og:description" content="Do condomínio Tropical até ao quarto, só a fazer scroll.">
-<meta property="og:image" content="frames/f0040.webp">
+<meta property="og:image" content="frames-wide/f0040.webp">
 <meta name="theme-color" content="#0E2433">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="preload" as="fetch" href="frames/manifest.json" crossorigin>
 <style>
 :root{--navy:#0E2433;--navy2:#0A1C28;--sun:#E9A23B;--teal:#127A86;--wall:#F4EFE6;--cream:#F7F5F0;--frame:#1C4A63}
 *{box-sizing:border-box}
@@ -44,13 +43,14 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
   background:radial-gradient(120% 90% at 50% 40%,#16384d 0%,var(--navy) 55%,var(--navy2) 100%)}
 .win{position:absolute;inset:0;overflow:hidden;background:#0b1b26}
 .win canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.win::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,28,40,.55) 0%,rgba(10,28,40,0) 34%,rgba(10,28,40,0) 70%,rgba(10,28,40,.45) 100%),linear-gradient(180deg,rgba(10,28,40,.5) 0%,rgba(10,28,40,0) 14%);pointer-events:none}
+.win::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,28,40,.78) 0%,rgba(10,28,40,.35) 30%,rgba(10,28,40,0) 50%,rgba(10,28,40,0) 74%,rgba(10,28,40,.4) 100%),linear-gradient(180deg,rgba(10,28,40,.5) 0%,rgba(10,28,40,0) 14%);pointer-events:none}
 .tag{position:absolute;top:96px;left:50%;transform:translateX(-50%);z-index:3;font-size:12px;font-weight:600;background:rgba(14,36,51,.7);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:7px 14px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .5s}
 .tag.on{opacity:1}
 
 .side{position:absolute;top:50%;transform:translateY(-50%);width:min(27vw,380px)}
-.side.r{width:min(20vw,250px)}
+.side.r{width:min(20vw,250px);background:rgba(10,28,40,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:18px 22px 22px;border-radius:18px}
+.cap{text-shadow:0 2px 20px rgba(10,28,40,.55)}
 .side.l{left:clamp(24px,5vw,90px)}
 .side.r{right:clamp(24px,5vw,90px)}
 .cap{position:relative;min-height:260px}
@@ -93,7 +93,7 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
   .win::after{background:linear-gradient(180deg,rgba(10,28,40,.6) 0%,rgba(10,28,40,0) 16%,rgba(10,28,40,0) 38%,rgba(10,28,40,.7) 62%,rgba(10,28,40,.96) 100%)}
   .cap{text-shadow:0 2px 18px rgba(10,28,40,.6)}
   .side.l{left:0;right:0;top:auto;bottom:0;transform:none;width:auto;padding:0 20px 92px;z-index:3}
-  .side.r{width:auto;left:20px;right:20px;top:auto;bottom:62px;transform:none;width:auto;z-index:3}
+  .side.r{width:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;border-radius:0;left:20px;right:20px;top:auto;bottom:62px;transform:none;width:auto;z-index:3}
   .steps{display:none}
   .bar{margin:0}
   .cap{min-height:220px}
@@ -179,6 +179,7 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
 (function () {
   var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
   var blurCtx = document.createElement('canvas').getContext('2d');
+  var DIR = window.innerWidth / window.innerHeight > 1 ? 'frames-wide/' : 'frames/';
   var tour = document.getElementById('tour');
   var caps = [].slice.call(document.querySelectorAll('#caps article'));
   var steps = [].slice.call(document.querySelectorAll('#steps li'));
@@ -264,7 +265,7 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
           img.decoding = 'async';
           img.onload = function () { img.ok = true; loaded++; active--; if (i === 0 || lastDrawn < 0) lastDrawn = -1; status(); next(); };
           img.onerror = function () { active--; next(); };
-          img.src = 'frames/f' + String(i).padStart(4, '0') + '.webp';
+          img.src = DIR + 'f' + String(i).padStart(4, '0') + '.webp';
           frames[i] = img;
         })(order[q++]);
       }
@@ -277,7 +278,7 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
   }
   window.addEventListener('resize', size);
   size();
-  fetch('frames/manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+  fetch(DIR + 'manifest.json').then(function (r) { return r.json(); }).then(function (m) {
     M = m; frames = new Array(M.count); status(); loadFrames();
   });
   requestAnimationFrame(tick);
