@@ -42,11 +42,10 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
 .tour{position:relative;height:1000vh}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;
   background:radial-gradient(120% 90% at 50% 40%,#16384d 0%,var(--navy) 55%,var(--navy2) 100%)}
-.win{position:relative;height:min(86svh,1100px);aspect-ratio:9/16;border-radius:999px 999px 18px 18px;overflow:hidden;
-  box-shadow:0 0 0 14px var(--frame),0 0 0 16px rgba(247,245,240,.25),0 60px 120px -30px rgba(0,0,0,.7);background:#0b1b26}
+.win{position:absolute;inset:0;overflow:hidden;background:#0b1b26}
 .win canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.win::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,28,40,0) 60%,rgba(10,28,40,.55) 100%);pointer-events:none}
-.tag{position:absolute;top:18%;left:50%;transform:translateX(-50%);z-index:3;font-size:12px;font-weight:600;background:rgba(14,36,51,.7);
+.win::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,28,40,.55) 0%,rgba(10,28,40,0) 34%,rgba(10,28,40,0) 70%,rgba(10,28,40,.45) 100%),linear-gradient(180deg,rgba(10,28,40,.5) 0%,rgba(10,28,40,0) 14%);pointer-events:none}
+.tag{position:absolute;top:96px;left:50%;transform:translateX(-50%);z-index:3;font-size:12px;font-weight:600;background:rgba(14,36,51,.7);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:7px 14px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .5s}
 .tag.on{opacity:1}
 
@@ -91,7 +90,6 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
 /* telemóvel */
 @media (max-width:899px){
   .tour{height:900vh}
-  .win{height:100%;width:100%;aspect-ratio:auto;border-radius:0;box-shadow:none}
   .win::after{background:linear-gradient(180deg,rgba(10,28,40,.6) 0%,rgba(10,28,40,0) 16%,rgba(10,28,40,0) 38%,rgba(10,28,40,.7) 62%,rgba(10,28,40,.96) 100%)}
   .cap{text-shadow:0 2px 18px rgba(10,28,40,.6)}
   .side.l{left:0;right:0;top:auto;bottom:0;transform:none;width:auto;padding:0 20px 92px;z-index:3}
@@ -180,6 +178,7 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
 <script>
 (function () {
   var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  var blurCtx = document.createElement('canvas').getContext('2d');
   var tour = document.getElementById('tour');
   var caps = [].slice.call(document.querySelectorAll('#caps article'));
   var steps = [].slice.call(document.querySelectorAll('#steps li'));
@@ -205,10 +204,20 @@ header.solid{background:rgba(14,36,51,.94);backdrop-filter:blur(10px);-webkit-ba
   }
   function draw(i) {
     var j = nearest(i); if (j < 0 || j === lastDrawn) return;
-    var img = frames[j], cw = cv.width, ch = cv.height;
-    var s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-    var w = img.naturalWidth * s, h = img.naturalHeight * s;
-    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    var img = frames[j], cw = cv.width, ch = cv.height, iw = img.naturalWidth, ih = img.naturalHeight;
+    var cover = Math.max(cw / iw, ch / ih), fit = Math.min(cw / iw, ch / ih);
+    if (cover / fit < 1.35) {            // formatos parecidos: ecrã inteiro
+      ctx.drawImage(img, (cw - iw * cover) / 2, (ch - ih * cover) / 2, iw * cover, ih * cover);
+    } else {                             // vídeo vertical num ecrã largo: fundo desfocado + vídeo inteiro
+      var bw = 48, bh = Math.round(bw * ch / cw), sc = Math.max(bw / iw, bh / ih);
+      blurCtx.canvas.width = bw; blurCtx.canvas.height = bh;
+      blurCtx.drawImage(img, (bw - iw * sc) / 2, (bh - ih * sc) / 2, iw * sc, ih * sc);
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(blurCtx.canvas, 0, 0, cw, ch);
+      ctx.fillStyle = 'rgba(10,28,40,0.45)'; ctx.fillRect(0, 0, cw, ch);
+      var w = iw * fit, h = ih * fit, x = (cw - w) / 2;
+      ctx.drawImage(img, x, 0, w, h);
+    }
     lastDrawn = j;
   }
   function sceneAt(p) {
