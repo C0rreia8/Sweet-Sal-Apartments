@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Explora o condomínio Tropical · Sweet Sal Apartments</title>
+<meta name="description" content="Anda pelo condomínio Tropical em Santa Maria, Ilha do Sal: piscina, jardins, bar e a entrada do Tropical Sweet.">
+<meta name="theme-color" content="#0E2433">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{--navy:#0E2433;--sun:#E9A23B;--teal:#127A86;--cream:#F7F5F0}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#BFE3EC;font-family:'Manrope',system-ui,sans-serif;color:var(--cream);-webkit-font-smoothing:antialiased;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas#gl{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none}
+a{color:inherit}
+.disp{font-family:'Syne',sans-serif;font-weight:700;letter-spacing:-.035em;line-height:.95;margin:0}
+.ser{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;font:700 14px 'Manrope',sans-serif;text-decoration:none;border:0;cursor:pointer;color:var(--navy);background:var(--cream)}
+.btn.sun{background:var(--sun)}
+.btn.ghost{background:rgba(14,36,51,.55);color:var(--cream);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ui{position:fixed;z-index:5}
+.top{top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:16px clamp(12px,3vw,32px);pointer-events:none}
+.top>*{pointer-events:auto}
+.logo{display:flex;flex-direction:column;align-items:center;line-height:1;text-decoration:none;text-shadow:0 2px 10px rgba(14,36,51,.5)}
+.logo b{font-family:'Syne',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em}
+.logo b i{font-family:'Instrument Serif',serif;font-weight:400;font-size:1.15em;color:var(--sun)}
+.logo small{font-size:10px;font-weight:700;letter-spacing:.32em;margin-top:4px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.label{position:fixed;left:0;top:0;z-index:3;transform:translate(-50%,-100%);pointer-events:auto;cursor:pointer;white-space:nowrap;
+  background:rgba(247,245,240,.94);color:var(--navy);font-weight:700;font-size:13px;padding:7px 12px;border-radius:999px;box-shadow:0 6px 18px -6px rgba(14,36,51,.45);transition:opacity .25s}
+.label small{display:block;font-weight:500;font-size:11px;opacity:.7}
+.label.star{background:var(--sun)}
+.label::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-top-color:inherit;border-bottom:0}
+.label.star::after{border-top-color:var(--sun)}
+.label:not(.star)::after{border-top-color:rgba(247,245,240,.94)}
+.hint{bottom:18px;left:50%;transform:translateX(-50%);background:rgba(14,36,51,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;transition:opacity .6s}
+.map{right:clamp(12px,3vw,32px);bottom:18px;width:150px;height:200px;border-radius:16px;background:rgba(14,36,51,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px}
+.map canvas{width:100%;height:100%;display:block}
+.door{left:50%;bottom:76px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
+  background:rgba(14,36,51,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:22px;padding:20px 22px;width:min(92vw,420px);text-align:center}
+.door.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.door p{margin:8px 0 16px;font-size:14px;opacity:.85;line-height:1.5}
+.door .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.intro{inset:0;z-index:10;display:grid;place-items:center;background:linear-gradient(180deg,rgba(14,36,51,.35),rgba(14,36,51,.85));text-align:center;padding:24px;transition:opacity .6s}
+.intro.off{opacity:0;pointer-events:none}
+.intro .eb{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--sun);margin:0 0 16px}
+.intro h1{font-size:clamp(44px,8vw,96px)}
+.intro h1 .ser{color:var(--sun)}
+.intro p{max-width:480px;margin:18px auto 26px;font-size:16px;line-height:1.6;opacity:.9}
+.keys{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:13px;opacity:.85;margin-top:22px}
+.keys span{display:flex;align-items:center;gap:8px}
+kbd{font:700 12px 'Manrope',sans-serif;background:rgba(247,245,240,.15);border:1px solid rgba(247,245,240,.3);border-radius:6px;padding:3px 7px}
+.load{font-size:13px;opacity:.7;margin-top:14px}
+.joy{left:22px;bottom:22px;width:128px;height:128px;border-radius:50%;background:rgba(14,36,51,.35);border:2px solid rgba(247,245,240,.4);display:none;touch-action:none}
+.joy i{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(247,245,240,.85)}
+.touch .joy{display:block}
+.touch .map{width:96px;height:128px;bottom:auto;top:128px}
+.touch .hint{bottom:auto;top:72px;font-size:12px;white-space:normal;text-align:center;width:max-content;max-width:calc(100vw - 32px);border-radius:14px}
+@media (max-width:640px){.acts .hide-s{display:none}}
+</style>
+<script type="importmap">{"imports":{"three":"../assets/vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<canvas id="gl" tabindex="0" aria-label="Condomínio Tropical em 3D. Usa as setas ou W A S D para andar."></canvas>
+<div id="labels"></div>
+
+<div class="ui top">
+  <a class="logo" href="../" aria-label="Sweet Sal Apartments — página inicial"><b>Sweet <i>Sal</i></b><small>APARTMENTS</small></a>
+  <div class="acts">
+    <button class="btn ghost" id="daynight" type="button">Ver à noite</button>
+    <a class="btn ghost hide-s" href="../visita/">Visita da casa</a>
+    <a class="btn sun" href="../#reservar">Reservar</a>
+  </div>
+</div>
+
+<div class="ui hint" id="hint">Setas ou W A S D para andar · arrastar para olhar · clicar no chão para ir</div>
+<div class="ui map" aria-hidden="true"><canvas id="map" width="268" height="368"></canvas></div>
+<div class="ui joy" id="joy" aria-hidden="true"><i></i></div>
+
+<div class="ui door" id="door" role="dialog" aria-live="polite">
+  <h2 class="disp" style="font-size:30px">Tropical <span class="ser" style="color:var(--sun)">Sweet</span></h2>
+  <p>Chegaste ao prédio do apartamento: 2 quartos, 82 m², a 3 minutos a pé da praia.</p>
+  <div class="row"><a class="btn sun" href="../visita/">Entrar na casa</a><a class="btn" href="../#reservar">Pedir disponibilidade</a></div>
+</div>
+
+<div class="ui intro" id="intro">
+  <div>
+    <p class="eb">Santa Maria · Ilha do Sal</p>
+    <h1 class="disp">Explora o <span class="ser">Tropical</span></h1>
+    <p>Entra pelo portão, passeia pelos jardins, vai até à piscina e encontra o Tropical Sweet.</p>
+    <button class="btn sun" id="start" type="button" style="min-height:52px;padding:0 28px;font-size:16px">Começar a explorar</button>
+    <div class="keys" id="keys"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> andar</span><span><kbd>Shift</kbd> correr</span><span>arrastar para olhar</span></div>
+    <div class="load" id="load">A preparar o condomínio…</div>
+    <p style="font-size:12px;opacity:.6;margin:22px auto 0">Modelo ilustrativo do condomínio — as distâncias e a decoração são aproximadas.</p>
+  </div>
+</div>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>
