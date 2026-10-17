@@ -367,17 +367,36 @@ POI.forEach((o) => {
 
 /* ================= Jogador / controlos ================= */
 const player = { x: 50, z: 6, yaw: Math.PI / 2, pitch: 0.02, r: 0.4 };
-let target = null, started = false, bob = 0;
+let target = null, started = false, bob = 0, near = false;
 const keys = {};
-addEventListener('keydown', (e) => { keys[e.code] = true; if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault(); });
+addEventListener('keydown', (e) => { keys[e.code] = true; if (near && started && (e.code === 'KeyE' || e.code === 'Enter')) location.href = '../visita/'; if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault(); });
 addEventListener('keyup', (e) => { keys[e.code] = false; });
 addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 
 const joy = { id: null, x: 0, y: 0, el: document.getElementById('joy') };
 const knob = joy.el.querySelector('i');
 let look = null;
+/* computador: o rato controla a câmara como num jogo (pointer lock); Esc solta o cursor */
+const locked = () => document.pointerLockElement === canvas;
+const lockMsg = document.getElementById('lockmsg');
+lockMsg.addEventListener('click', () => lock());
+function lock() { if (!touch && started && canvas.requestPointerLock) { try { const r = canvas.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (e) {} } }
+document.addEventListener('pointerlockchange', () => {
+  lockMsg.classList.toggle('on', started && !touch && !locked());
+  document.body.classList.toggle('locked', locked());
+  if (!locked()) keys.Mouse = false;
+});
+document.addEventListener('mousemove', (e) => {
+  if (!locked()) return;
+  const mx = Math.max(-120, Math.min(120, e.movementX)), my = Math.max(-120, Math.min(120, e.movementY));
+  player.yaw -= mx * 0.0024;
+  player.pitch = Math.max(-0.75, Math.min(0.6, player.pitch + my * 0.0024));
+});
+canvas.addEventListener('mousedown', (e) => { if (locked() && e.button === 0) keys.Mouse = true; });
+addEventListener('mouseup', (e) => { if (e.button === 0) keys.Mouse = false; });
 canvas.addEventListener('pointerdown', (e) => {
   canvas.focus();
+  if (!touch) { if (!locked()) lock(); return; }
   look = { id: e.pointerId, x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, t: performance.now() };
   canvas.setPointerCapture(e.pointerId);
 });
@@ -484,7 +503,7 @@ function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (started) {
     let f = 0, s = 0;
-    if (keys.KeyW || keys.ArrowUp) f += 1; if (keys.KeyS || keys.ArrowDown) f -= 1;
+    if (keys.KeyW || keys.ArrowUp || keys.Mouse) f += 1; if (keys.KeyS || keys.ArrowDown) f -= 1;
     if (keys.KeyA) s -= 1; if (keys.KeyD) s += 1;
     if (keys.ArrowLeft) player.yaw += 1.9 * dt; if (keys.ArrowRight) player.yaw -= 1.9 * dt;
     if (joy.id !== null) { f += -joy.y; s += joy.x; }
@@ -524,7 +543,7 @@ function frame(now) {
   waterMat.color.setHSL(0.52, night ? 0.85 : 0.62, (night ? 0.38 : 0.53) + Math.sin(t * 1.3) * 0.015);
 
   // porta do Tropical Sweet
-  const near = Math.hypot(player.x - DOOR.x, player.z - DOOR.z) < 5;
+  near = Math.hypot(player.x - DOOR.x, player.z - DOOR.z) < 5;
   doorEl.classList.toggle('on', near && started);
 
   // etiquetas
@@ -548,6 +567,7 @@ requestAnimationFrame(frame);
 /* ================= Início ================= */
 document.getElementById('load').textContent = '';
 document.getElementById('start').addEventListener('click', () => {
-  started = true; document.getElementById('intro').classList.add('off'); canvas.focus();
+  started = true; document.getElementById('intro').classList.add('off'); canvas.focus(); lock();
+  if (!touch) setTimeout(() => lockMsg.classList.toggle('on', !locked()), 400);
 });
 requestAnimationFrame(frame);
